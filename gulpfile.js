@@ -5,6 +5,7 @@ var plugins = require('gulp-load-plugins')();
 
 var paths = {
   coffee: ['./lib/**/*.coffee'],
+  config: ['./config/*'],
   watch: ['./gulpfile.js', './lib/**', './spec/**', '!spec/{temp,temp/**}'],
   tests: ['./spec/**/*.coffee', '!spec/{temp,temp/**}']
 };
@@ -55,10 +56,16 @@ gulp.task('test', ['lint', 'istanbul']);
 
 gulp.task('release', ['bump']);
 
-gulp.task('dist', function () {
+gulp.task('config', function () {
+  return gulp.src(paths.config, {base: '.'})
+    .pipe(gulp.dest('./dist'));
+});
+
+gulp.task('coffee', function () {
   return gulp.src(paths.coffee, {base: '.'})
     .pipe(plugins.coffee({bare: true})).on('error', plugins.util.log)
     .pipe(gulp.dest('./dist'));
 });
+gulp.task('dist', ['coffee', 'config']);
 
 gulp.task('default', ['test', 'dist']);
