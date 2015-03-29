@@ -23,4 +23,5 @@ Option.belongsTo(Vote)
 Vote.hasMany(Receiver)
 Receiver.belongsTo(Vote)
 
-sync = require('q').all([Vote.sync(), Option.sync(), Receiver.sync()])
+# sync = require('q').all([Vote.sync(), Option.sync(), Receiver.sync()])
+module.exports = {Vote, Receiver, Option}
